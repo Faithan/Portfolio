@@ -499,7 +499,7 @@ main .home {
     font-size: 1.5rem;
     font-weight: 600;
     color: #ffffff;
-    border: 3px solid var(--color10);
+    border: 3px solid var(--color11);
     border-radius: 8px;
     box-shadow: 0 0 0 #ffffff;
     transition: all 0.3s ease-in-out;
@@ -798,7 +798,7 @@ main .home {
 .laptop-container img {
     max-width: 490px;
     width: 490px;
-    border: 15px solid var(--color8);
+    border: 15px solid blackupda;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
 }
@@ -861,7 +861,7 @@ main .home {
     padding: 0px 15px;
     border-radius: 5px;
     background-color: var(--color11);
-    border: 3px solid var(--color10);
+   
     gap: 10px;
     cursor: pointer;
     transition: all 0.3s;
