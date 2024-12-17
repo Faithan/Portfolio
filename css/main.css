@@ -113,6 +113,7 @@ nav {
     align-items: center;
     top: 0;
     z-index: 1000;
+    border-bottom: 1px solid var(--color7);
 }
 
 .image-container {
@@ -798,7 +799,7 @@ main .home {
 .laptop-container img {
     max-width: 490px;
     width: 490px;
-    border: 15px solid blackupda;
+    border: 15px solid black;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
 }
