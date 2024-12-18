@@ -8,7 +8,15 @@
     <meta name="description"
         content="Welcome to Khemark Ocariza's portfolio. Explore my projects, skills, and contact information.">
     <link rel="icon" href="system_images/me1.jpg" type="image/x-icon">
-    <link rel="stylesheet" href="css/main.css">
+
+    <link rel="stylesheet" href="css/main.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="css/index.css?v=<?php echo time(); ?>">
+
+
+    <!-- SweetAlert2 CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
 
     <!-- fontawesome -->
     <link href="fontawesome/css/fontawesome.css" rel="stylesheet" />
@@ -20,21 +28,7 @@
 
 
 <body>
-
-
-    <nav>
-        <div class="image-container">
-            <img src="system_images/me1.jpg" alt="">
-            <label for="">KHEMARK OCARIZA</label>
-        </div>
-
-        <ul>
-            <li><a href="">HOME</a></li>
-            <li><a href="">ABOUT</a></li>
-            <li><a href="">PROJECTS</a></li>
-            <li><a href="">CONTACT</a></li>
-        </ul>
-    </nav>
+    <?php include 'nav.php' ?>
 
     <main>
         <section class="home" id="home">
@@ -339,8 +333,6 @@
                         </button>
                     </div>
                 </div>
-
-
                 <div class="project-container">
                     <div class="project-image">
                         <div class="laptop-container">
@@ -402,17 +394,143 @@
                     </div>
                 </div>
             </div>
-
-
         </section>
+
+
+        <section class="contact">
+            <h1>Contact</h1>
+            <p>Feel free to reach out by submitting the form below, and I will respond as quickly as possible.</p>
+            <div class="contact-container">
+                <form id="contactForm" action="https://api.web3forms.com/submit" method="POST">
+                    <!-- Replace with your Access Key -->
+                    <input type="hidden" name="access_key" value="a54c7ac8-4e1f-4883-aa63-b87e866d75a8">
+
+                    <!-- Form Inputs -->
+                    <label for="">Name</label>
+                    <input type="text" name="name" required placeholder="Your Name">
+                    <label for="">Email</label>
+                    <input type="email" name="email" required placeholder="Your Work Email">
+                    <label for="">Message</label>
+                    <textarea name="message" required placeholder="Your Message"></textarea>
+
+                    <!-- Honeypot Spam Protection -->
+                    <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Loading Spinner (Hidden by default) -->
+        <div id="loadingScreen" style="display: none;">
+            <div class="spinner"></div>
+        </div>
+
+        <!-- Styles for Loading Spinner -->
+        <style>
+            /* Full-screen overlay */
+            #loadingScreen {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 9999;
+            }
+
+            /* Spinner style */
+            .spinner {
+                border: 8px solid #f3f3f3;
+                /* Light gray */
+                border-top: 8px solid var(--color10);
+                /* Blue */
+                border-radius: 50%;
+                width: 50px;
+                height: 50px;
+                animation: spin 1s linear infinite;
+            }
+
+            /* Spinner animation */
+            @keyframes spin {
+                0% {
+                    transform: rotate(0deg);
+                }
+
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+        </style>
+
+        <script>
+            document.getElementById('contactForm').addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent the default form submission
+
+                // Show loading screen
+                document.getElementById('loadingScreen').style.display = 'flex';
+
+                // Submit the form using Fetch API
+                fetch('https://api.web3forms.com/submit', {
+                        method: 'POST',
+                        body: new FormData(this)
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        // Hide the loading screen
+                        document.getElementById('loadingScreen').style.display = 'none';
+
+                        if (data.success) {
+                            // Display a success message using SweetAlert
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Thank You!',
+                                text: 'Your message has been sent successfully. You can go back or refresh the page.',
+                                showCancelButton: true,
+                                confirmButtonText: 'Go Back',
+                                cancelButtonText: 'Refresh',
+                                reverseButtons: true
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    // Redirect to the contact page or any page of your choice
+                                    window.location.href = 'index.php';
+                                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                                    // Reload the page to reset the form
+                                    window.location.reload();
+                                }
+                            });
+                        } else {
+                            // Show an error message if the form submission failed
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'Something went wrong. Please try again later.'
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        // Hide the loading screen
+                        document.getElementById('loadingScreen').style.display = 'none';
+
+                        console.error('Error:', error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'There was an issue submitting your form. Please try again later.'
+                        });
+                    });
+            });
+        </script>
+
+
 
     </main>
 
-    <footer>
-
-    </footer>
+    <?php include 'footer.php' ?>
 
 </body>
-
 
 </html>
